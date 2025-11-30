@@ -11,7 +11,7 @@ router.get('/products/:id', productController.findById);
 router.post('/products/create',authentication, productController.createProduct);
 router.delete('/products/:id', authentication, productController.deleteProduct);
 
-//router.put('/products/:id', authentication, productController.updateProduct);
+router.put('/products/:id', authentication, productController.updateProduct);
 
 
 
