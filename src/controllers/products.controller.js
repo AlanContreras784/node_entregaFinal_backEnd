@@ -40,6 +40,8 @@ const updateProduct = async (req, res) => {
     try{
         const id = req.params.id
         const product = req.body
+        console.log("🔥 BODY RECIBIDO EN UPDATE:", req.body);
+        console.log("🔥 ID:", req.params.id);
         if (id && product){
             const newProduct = await productsService.update(id, product)
             res.status(200).json({ message: "Producto actualizado", payload: newProduct });
