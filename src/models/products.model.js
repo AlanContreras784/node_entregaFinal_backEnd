@@ -1,5 +1,5 @@
 import {db} from '../config/firebase.productos.js';
-import {collection,doc, addDoc, getDocs, updateDoc, deleteDoc} from "firebase/firestore"
+import {collection,doc, addDoc, getDocs, updateDoc, deleteDoc, getDoc} from "firebase/firestore"
 
 const productsCollection = collection(db, "productos");
 
