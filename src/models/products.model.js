@@ -30,15 +30,33 @@ export async function saveProduct(product) {
         throw error;
     }
 }
+  
+
 
 export const updateProduct = async (id, product) => {
-    try {
-        const productUpdate = doc(db, "productos", id);
-        await updateDoc(productUpdate, product);
-    } catch (error) {
-        throw new Error("Error updating product:", error.message);
+  try {
+    const ref = doc(db, "productos", id);
+
+    // 🔥 1. Actualizar en Firestore
+    await updateDoc(ref, product);
+
+    // 🔥 2. Obtener datos actualizados
+    const snap = await getDoc(ref);
+
+    if (!snap.exists()) {
+      throw new Error("Producto no encontrado después de actualizar");
     }
-}   
+
+    // 🔥 3. Devolver el producto actualizado
+    return {
+      id: snap.id,
+      ...snap.data()
+    };
+
+  } catch (error) {
+    throw new Error("Error actualizando producto: " + error.message);
+  }
+};
 
 
 export const deleteProduct = async (id) => {

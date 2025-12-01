@@ -42,7 +42,7 @@ const updateProduct = async (req, res) => {
         const product = req.body
         if (id && product){
             const newProduct = await productsService.update(id, product)
-            res.status(200).json(newProduct);
+            res.status(200).json({ message: "Producto actualizado", payload: newProduct });
         }else{
             res.status(400).json({ message: "Faltan datos obligatorios" });
         }
@@ -50,6 +50,7 @@ const updateProduct = async (req, res) => {
         res.status(500).json({ message: "Error Interno del Servidor", error: error.message });
     }
 }
+
 
 
 const deleteProduct = async (req, res) => {
