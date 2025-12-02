@@ -60,10 +60,15 @@ Servidor escuchando en http://localhost:3000 (o el puerto definido en `.env`).
 Variables de Entorno
 -------------------
 PORT=3000
+
 JWT_SECRET_KEY=tu_secreto_jwt
+
 FIREBASE_API_KEY=tu_firebase_api_key
+
 FIREBASE_AUTH_DOMAIN=tu_firebase_auth_domain
+
 FIREBASE_STORAGE_BUCKET=tu_firebase_storage_bucket
+
 FIREBASE_APP_ID=tu_firebase_app_id
 
 Uso
