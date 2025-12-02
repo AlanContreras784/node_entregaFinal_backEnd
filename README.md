@@ -78,11 +78,17 @@ Uso
 
 {
   "message": "Lista de productos",
+  
   "payload": [
+  
     {
+    
       "id": "abc123",
+      
       "name": "Producto 1",
+      
       "price": 100
+      
     }
   ]
 }
@@ -101,9 +107,13 @@ Tecnologías
 Estructura del Proyecto
 ----------------------
 template-server-layers/
+
 ├── index.js
+
 ├── package.json
+
 ├── .env
+
 ├── .gitignore
 ├── assets/
 │   └── demo.gif
