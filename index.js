@@ -9,10 +9,10 @@ import 'dotenv/config';
 
 //settings
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://node-entrega-final-back-end.vercel.app/',''], // dominios permitidos
+  origin: ['http://localhost:4000', 'https://node-entrega-final-back-end.vercel.app/'], // dominios permitidos
   methods: ['GET', 'POST', 'PUT', 'DELETE'],                  // métodos permitidos
   allowedHeaders: ['Content-Type', 'Authorization'],          // cabeceras permitidas
   exposedHeaders: ['Content-Length'],                         // cabeceras visibles al cliente
