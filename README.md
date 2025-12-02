@@ -115,20 +115,35 @@ template-server-layers/
 ├── .env
 
 ├── .gitignore
+
+
 ├── assets/
+
 │   └── demo.gif
+
 ├── src/
+
 │   ├── config/
+
 │   │   └── firebase.js
+
 │   ├── routes/
 │   │   ├── auth.route.js
+
 │   │   └── products.route.js
+
 │   ├── controllers/
+
 │   │   └── products.controller.js
+
 │   ├── services/
+
 │   │   └── products.service.js
+
 │   └── models/
+
 │       └── products.model.js
+
 └── README.md
 
 API Endpoints
