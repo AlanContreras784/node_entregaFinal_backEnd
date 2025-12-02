@@ -48,7 +48,7 @@ app.use((req, res, next) => {
 
 //routes
 app.get("/", (req, res) => {
-  res.json({ title: "Home Page" });
+  res.json({ title: "Home Page Bienvenidos" });
 });
 //app.use("/api/users", userRoutes);
 app.use("/api", productsRoutes);
