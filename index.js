@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-  origin: ['http://localhost:3000', process.env.FRONTEND_URL], // dominios permitidos
+  origin: ['http://localhost:3000', 'https://entrega-final-tt-react-js.vercel.app/'], // dominios permitidos
   methods: ['GET', 'POST', 'PUT', 'DELETE'],                  // métodos permitidos
   allowedHeaders: ['Content-Type', 'Authorization'],          // cabeceras permitidas
   exposedHeaders: ['Content-Length'],                         // cabeceras visibles al cliente
