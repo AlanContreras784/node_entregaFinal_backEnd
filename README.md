@@ -66,28 +66,103 @@ Crea un archivo `.env` en la raíz de `back-end` con:
 
 ```
 PORT=3000
+
 JWT_SECRET_KEY=tu_secreto_jwt
+<<<<<<< HEAD
 FIREBASE_ADMIN_EMAIL=admin@example.com
 FIREBASE_ADMIN_PASSWORD=adminpass
 # Otras variables de Firebase si se usan (API keys, etc.)
 ```
+=======
+
+FIREBASE_API_KEY=tu_firebase_api_key
+
+FIREBASE_AUTH_DOMAIN=tu_firebase_auth_domain
+
+FIREBASE_STORAGE_BUCKET=tu_firebase_storage_bucket
+
+FIREBASE_APP_ID=tu_firebase_app_id
+>>>>>>> fdcb6425b83056dea05ebe230bf9ef0a5bfdad55
 
 Nota: `src/config/token.js` usa `JWT_SECRET_KEY` para firmar tokens.
 
+<<<<<<< HEAD
 ▶️ Scripts útiles (desde `back-end`)
 -------------------------------------------------
 - `npm run dev` — ejecuta `nodemon index.js` (desarrollo)
 - `npm start` — ejecuta `node index.js` (producción)
+=======
+{
+  "message": "Lista de productos",
+  
+  "payload": [
+  
+    {
+    
+      "id": "abc123",
+      
+      "name": "Producto 1",
+      
+      "price": 100
+      
+    }
+  ]
+}
+>>>>>>> fdcb6425b83056dea05ebe230bf9ef0a5bfdad55
 
 🧭 Rutas / Endpoints (principales)
 ------------------------------------------------
 Las rutas están en `src/routes` y los controladores en `src/controllers`.
 
+<<<<<<< HEAD
 - Autenticación
 ----------------
   - `POST /login` — recibe `{ email, password }` y devuelve `{ token }` si las credenciales coinciden. Las credenciales válidas por defecto son:
     - `test@gmail.com` / `123456`
     - o las definidas por `FIREBASE_ADMIN_EMAIL` y `FIREBASE_ADMIN_PASSWORD` en `.env`.
+=======
+Estructura del Proyecto
+----------------------
+template-server-layers/
+
+├── index.js
+
+├── package.json
+
+├── .env
+
+├── .gitignore
+
+
+├── assets/
+
+│   └── demo.gif
+
+├── src/
+
+│   ├── config/
+
+│   │   └── firebase.js
+
+│   ├── routes/
+│   │   ├── auth.route.js
+
+│   │   └── products.route.js
+
+│   ├── controllers/
+
+│   │   └── products.controller.js
+
+│   ├── services/
+
+│   │   └── products.service.js
+
+│   └── models/
+
+│       └── products.model.js
+
+└── README.md
+>>>>>>> fdcb6425b83056dea05ebe230bf9ef0a5bfdad55
 
 - Productos
 ----------------
