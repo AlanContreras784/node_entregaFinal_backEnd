@@ -17,7 +17,7 @@ Un back-end minimalista pero completo, pensado como plantilla para proyectos edu
 - 🔐 Variables de entorno
 - ▶️ Scripts útiles
 - 🧭 Rutas / Endpoints
-- 🔒 Autenticación
+- 🔒 Autenticación JWT
 - 🧩 Estructura del proyecto
 - 🛠️ Uso y ejemplos
 - 🤝 Contribuir
@@ -38,6 +38,18 @@ Es ideal como punto de partida para aprender separación de responsabilidades o 
 - Node.js v18 o superior
 - npm o yarn
 - (Opcional) Cuenta de Firebase para conectar Firestore
+
+Tecnologías
+---------------------------------
+- Node.js
+- Express 5
+- Firebase Firestore
+- JSON Web Token (JWT)
+- CORS
+- dotenv
+- Nodemon (desarrollo)
+- Faker.js (datos de prueba)
+
 
 ⚙️ Instalación rápida
 ------------------------------------
@@ -62,107 +74,98 @@ npm start
 
 🔐 Variables de entorno (ejemplo)
 ------------------------------------------------
-Crea un archivo `.env` en la raíz de `back-end` con:
+Crea un archivo `.env` en la raíz de `back-end` con (no subir al repositorio):
 
 ```
 PORT=3000
-
 JWT_SECRET_KEY=tu_secreto_jwt
-<<<<<<< HEAD
 FIREBASE_ADMIN_EMAIL=admin@example.com
 FIREBASE_ADMIN_PASSWORD=adminpass
 # Otras variables de Firebase si se usan (API keys, etc.)
 ```
-=======
-
-FIREBASE_API_KEY=tu_firebase_api_key
-
-FIREBASE_AUTH_DOMAIN=tu_firebase_auth_domain
-
-FIREBASE_STORAGE_BUCKET=tu_firebase_storage_bucket
-
-FIREBASE_APP_ID=tu_firebase_app_id
->>>>>>> fdcb6425b83056dea05ebe230bf9ef0a5bfdad55
 
 Nota: `src/config/token.js` usa `JWT_SECRET_KEY` para firmar tokens.
 
-<<<<<<< HEAD
 ▶️ Scripts útiles (desde `back-end`)
 -------------------------------------------------
 - `npm run dev` — ejecuta `nodemon index.js` (desarrollo)
 - `npm start` — ejecuta `node index.js` (producción)
-=======
-{
-  "message": "Lista de productos",
-  
-  "payload": [
-  
-    {
-    
-      "id": "abc123",
-      
-      "name": "Producto 1",
-      
-      "price": 100
-      
-    }
-  ]
-}
->>>>>>> fdcb6425b83056dea05ebe230bf9ef0a5bfdad55
 
 🧭 Rutas / Endpoints (principales)
 ------------------------------------------------
 Las rutas están en `src/routes` y los controladores en `src/controllers`.
 
-<<<<<<< HEAD
 - Autenticación
 ----------------
   - `POST /login` — recibe `{ email, password }` y devuelve `{ token }` si las credenciales coinciden. Las credenciales válidas por defecto son:
     - `test@gmail.com` / `123456`
     - o las definidas por `FIREBASE_ADMIN_EMAIL` y `FIREBASE_ADMIN_PASSWORD` en `.env`.
-=======
-Estructura del Proyecto
-----------------------
-template-server-layers/
 
-├── index.js
 
+Estructura del Proyecto (recomendada)
+------------------------------------
+Aquí tienes una estructura de proyecto sugerida, lista para reemplazar la actual. Está pensada para mantener claridad entre capas y facilitar pruebas, scripts y documentación.
+
+back-end/
+├── index.js                     # Entrada del servidor
 ├── package.json
-
-├── .env
-
+├── package-lock.json
+├── README.md                    # Documentación (este archivo)
+├── vercel.json
+├── .env                         # Variables de entorno (no commitear)
 ├── .gitignore
-
-
-├── assets/
-
-│   └── demo.gif
-
+├── scripts/
+│   └── seed.js                  # Script para seed de datos (opcional)
 ├── src/
-
 │   ├── config/
-
-│   │   └── firebase.js
-
+│   │   ├── db.js                # Conexión a base de datos / Firebase
+│   │   ├── firebase.productos.js
+│   │   └── token.js             # Generación/validación JWT
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   ├── products.controller.js
+│   │   └── user.controller.js
+│   ├── data/
+│   │   ├── products.json        # Datos de ejemplo
+│   │   └── users.json
+│   ├── middleware/
+│   │   └── authentication.js
+│   ├── models/
+│   │   ├── products.model.js
+│   │   └── user.model.js
 │   ├── routes/
 │   │   ├── auth.route.js
-
-│   │   └── products.route.js
-
-│   ├── controllers/
-
-│   │   └── products.controller.js
-
+│   │   ├── products.route.js
+│   │   └── user.route.js
 │   ├── services/
+│   │   ├── products.service.js
+│   │   └── user.service.js
+│   └── utils/
+│       ├── index.js
+│       └── seedUser.js
+└──README.md(este archivo)
 
-│   │   └── products.service.js
+Notas:
+- Mantén `.env` fuera del repo; incluye `.env.example` con claves dummy.  
 
-│   └── models/
 
-│       └── products.model.js
+Uso
+------
+- Inicia el servidor y prueba los endpoints usando Postman, Insomnia o tu front-end.
+- Ejemplo de respuesta de /api/products:
 
-└── README.md
->>>>>>> fdcb6425b83056dea05ebe230bf9ef0a5bfdad55
+{
+  "message": "Lista de productos",
+  "payload": [
+    {
+      "name": "Producto 1",      
+      "price": 100,
+      "category": "biodegradable",
+      "description": "producto reciclado"      
+    }
+  ]
+}
+-Nota: El ID del produco se genera automaticamente cuando se crea un producto:
 
 - Productos
 ----------------
@@ -233,6 +236,114 @@ El proyecto soporta dos modos principales:
 - Nunca dejes `JWT_SECRET_KEY` en el repositorio; usa `.env` y variables de entorno en producción.
 - Añade validaciones (p. ej. con `Joi` o `express-validator`) en los controladores antes de persistir datos.
 - Considera añadir tests unitarios y de integración cuando escales la API.
+
+✨ Guía  para usar en Postman
+---------------------------------------------------
+Bienvenido a la documentación oficial de tu API. Acá vas a encontrar los pasos para autenticarte, probar cada endpoint y estructurar correctamente las solicitudes en Postman.
+
+🧩 Estructura real de un producto
+----------------------------------
+{
+  "name": "Producto 1",
+  "price": 100,
+  "category": "biodegradable",
+  "description": "producto reciclado"
+}
+
+🔐 Autenticación (JWT)
+------------------------
+Las rutas protegidas requieren enviar un token en el header:
+Authorization: Bearer <TOKEN>
+
+Este token se obtiene mediante:
+POST {{base_url}}/api/login
+
+🚀 Endpoints de la API
+------------------------------
+🔑 1) Login — Obtener Token
+      ------------------------------
+  POST {{base_url}}/api/login
+
+  🔸 Body (JSON)
+  {
+    "email": "test@gmail.com",
+    "password": "123456"
+  }
+
+  🔸 Respuesta esperada:
+  { "token": "eyJhbGciOi..." }
+
+🛍️ Productos
+--------------
+📄 2) Listar todos los productos (No requiere autenticación)
+      ------------------------------------------------------------
+  GET {{base_url}}/api/products
+
+🎯 3) Obtener un producto por ID (No requiere autenticación)
+      ------------------------------------------------------------
+  GET {{base_url}}/api/products/:id 
+
+➕ 4) Crear un producto (PROTEGIDO requiere autenticación)
+      ------------------------------------------------------------
+✔️ Ruta correcta según tu backend:
+  POST {{base_url}}/api/products/create
+
+  🔸 Headers en Postman
+  Authorization: Bearer <TOKEN>
+  Content-Type: application/json
+
+  🔸 Body (JSON)
+  {
+    "name": "Producto 1",
+    "price": 100,
+    "category": "biodegradable",
+    "description": "producto reciclado"
+  }
+
+✏️ 5) Actualizar un producto (PROTEGIDO requiere autenticación)
+      ------------------------------------------------------------
+  PUT {{base_url}}/api/products/:id
+
+  🔸 Headers
+  Authorization: Bearer <TOKEN>
+  Content-Type: application/json
+
+  🔸 Body (ejemplo)
+  {
+    "name": "Producto actualizado",
+    "price": 150,
+    "category": "biodegradable",
+    "description": "detalle actualizado"
+  }
+
+🗑️ 6) Eliminar un producto (PROTEGIDO requiere autenticación)
+      ------------------------------------------------------------
+  DELETE {{base_url}}/api/products/:id
+
+  🔸 Headers
+  Authorization: Bearer <TOKEN>
+
+🧪 Guía rápida para Postman
+------------------------------------------
+🔵 Paso 1 — Hacer login
+
+Ejecutá POST {{base_url}}/api/login
+Copiá el token del campo "token".
+
+🔵 Paso 2 — Agregar token en Postman
+
+En cada request protegida:
+Ir a Headers
+Agregar:
+Authorization: Bearer <TOKEN>
+
+🔵 Paso 3 — Probar endpoints
+
+Crear → POST /api/products/create
+Listar → GET /api/products
+Ver uno → GET /api/products/:id
+Actualizar → PUT /api/products/:id
+Eliminar → DELETE /api/products/:id
 
 🤝 Contribuir
 ----------------------------
