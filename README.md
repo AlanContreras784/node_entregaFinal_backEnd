@@ -1,157 +1,178 @@
-Template Server Layers
-=====================
+# 🚀 Back-end — API REST (Node.js + Express) — Plantilla por capas
 
-License: MIT | Node.js 18.x | Express 5.1 | Firebase Firestore
+Un back-end minimalista pero completo, pensado como plantilla para proyectos educativos o MVPs. Incluye rutas para productos, autenticación JWT y capa de servicios para separar responsabilidades.
 
-Plantilla de servidor con arquitectura por capas para Node.js, integrando Express, Firebase Firestore y JWT para autenticación.
+💡 Resumen rápido
+--------------------------------
+- Lenguaje: Node.js (ES Modules)
+- Framework: Express 5
+- Autenticación: JWT (archivo `src/config/token.js`)
+- Persistencia: soporta Firebase y ficheros JSON de ejemplo (`src/data`)
 
-Tabla de Contenidos
-------------------
-- Descripción
-- Requisitos
-- Instalación
-- Variables de Entorno
-- Uso
-- Tecnologías
-- Estructura del Proyecto
-- API Endpoints
-- Autenticación JWT
-- Contribución
-- Licencia
-- Contacto
+📄 Índice
+--------------------------------
+- 📌 Descripción
+- 🚀 Requisitos
+- ⚙️ Instalación
+- 🔐 Variables de entorno
+- ▶️ Scripts útiles
+- 🧭 Rutas / Endpoints
+- 🔒 Autenticación
+- 🧩 Estructura del proyecto
+- 🛠️ Uso y ejemplos
+- 🤝 Contribuir
+- 📄 Licencia y contacto
 
-Descripción
------------
-Este proyecto sirve como plantilla de servidor por capas, con separación clara entre:
+📌 Descripción
+--------------------------------
+Este proyecto organiza el servidor en capas claras:
+- `routes` → definición de endpoints
+- `controllers` → parseo/validación de requests y respuestas
+- `services` → lógica de negocio
+- `models` → acceso a datos (Firestore o JSON local)
 
-- Routes → Definición de endpoints
-- Controllers → Lógica de manejo de requests/responses
-- Services → Lógica de negocio y conexión con modelos
-- Models → Acceso a la base de datos Firestore
+Es ideal como punto de partida para aprender separación de responsabilidades o para arrancar rápidamente un prototipo.
 
-Incluye autenticación con JWT y configuración segura de Firebase mediante variables de entorno.
-
-Requisitos
-----------
+🚀 Requisitos
+--------------------------------
 - Node.js v18 o superior
 - npm o yarn
-- Cuenta de Firebase para Firestore
-- Postman, Insomnia o similar para probar endpoints
+- (Opcional) Cuenta de Firebase para conectar Firestore
 
-Instalación
------------
-1. Clonar el repositorio:
-   git clone https://github.com/tuusuario/template-server-layers.git
-   cd template-server-layers
+⚙️ Instalación rápida
+------------------------------------
+Abre PowerShell y ejecuta:
 
-2. Instalar dependencias:
-   npm install
+```powershell
+cd "c:/CERO-HUELLA-Talent Tech/BackEnd-EntregaFinal/back-end"
+npm install
+```
 
-3. Crear archivo `.env` en la raíz del proyecto con las variables necesarias.
+Ejecutar en desarrollo:
 
-4. Ejecutar servidor en modo desarrollo:
-   npm run dev
+```powershell
+npm run dev
+```
 
-5. Ejecutar servidor en modo producción:
-   npm start
+Ejecutar en producción:
 
-Servidor escuchando en http://localhost:3000 (o el puerto definido en `.env`).
+```powershell
+npm start
+```
 
-Variables de Entorno
--------------------
+🔐 Variables de entorno (ejemplo)
+------------------------------------------------
+Crea un archivo `.env` en la raíz de `back-end` con:
+
+```
 PORT=3000
 JWT_SECRET_KEY=tu_secreto_jwt
-FIREBASE_API_KEY=tu_firebase_api_key
-FIREBASE_AUTH_DOMAIN=tu_firebase_auth_domain
-FIREBASE_STORAGE_BUCKET=tu_firebase_storage_bucket
-FIREBASE_APP_ID=tu_firebase_app_id
+FIREBASE_ADMIN_EMAIL=admin@example.com
+FIREBASE_ADMIN_PASSWORD=adminpass
+# Otras variables de Firebase si se usan (API keys, etc.)
+```
 
-Uso
----
-- Inicia el servidor y prueba los endpoints usando Postman, Insomnia o tu front-end.
-- Ejemplo de respuesta de /api/products:
+Nota: `src/config/token.js` usa `JWT_SECRET_KEY` para firmar tokens.
 
-{
-  "message": "Lista de productos",
-  "payload": [
-    {
-      "id": "abc123",
-      "name": "Producto 1",
-      "price": 100
-    }
-  ]
-}
+▶️ Scripts útiles (desde `back-end`)
+-------------------------------------------------
+- `npm run dev` — ejecuta `nodemon index.js` (desarrollo)
+- `npm start` — ejecuta `node index.js` (producción)
 
-Tecnologías
------------
-- Node.js
-- Express 5
-- Firebase Firestore
-- JSON Web Token (JWT)
-- CORS
-- dotenv
-- Nodemon (desarrollo)
-- Faker.js (datos de prueba)
+🧭 Rutas / Endpoints (principales)
+------------------------------------------------
+Las rutas están en `src/routes` y los controladores en `src/controllers`.
 
-Estructura del Proyecto
-----------------------
-template-server-layers/
-├── index.js
-├── package.json
-├── .env
-├── .gitignore
-├── assets/
-│   └── demo.gif
-├── src/
-│   ├── config/
-│   │   └── firebase.js
-│   ├── routes/
-│   │   ├── auth.route.js
-│   │   └── products.route.js
-│   ├── controllers/
-│   │   └── products.controller.js
-│   ├── services/
-│   │   └── products.service.js
-│   └── models/
-│       └── products.model.js
-└── README.md
+- Autenticación
+----------------
+  - `POST /login` — recibe `{ email, password }` y devuelve `{ token }` si las credenciales coinciden. Las credenciales válidas por defecto son:
+    - `test@gmail.com` / `123456`
+    - o las definidas por `FIREBASE_ADMIN_EMAIL` y `FIREBASE_ADMIN_PASSWORD` en `.env`.
 
-API Endpoints
--------------
-### Productos
-GET /api/products → Lista todos los productos  
-GET /api/products/:id → Obtiene un producto por ID  
-POST /api/products → Crea un nuevo producto  
-PUT /api/products/:id → Actualiza un producto existente  
-DELETE /api/products/:id → Elimina un producto  
+- Productos
+----------------
+  - `GET /products` — lista todos los productos ✅
+  - `GET /products/:id` — obtiene producto por `id` ✅
+  - `POST /products/create` — crea producto (PROTEGIDO) ✅
+  - `PUT /products/:id` — actualiza producto (PROTEGIDO) ✅
+  - `DELETE /products/:id` — elimina producto (PROTEGIDO) ✅
 
-### Autenticación
-POST /api/login → Genera un token JWT válido
+> Observación: El prefijo global (por ejemplo `/api`) puede definirse en `index.js` — revisa ese archivo si esperas rutas con `/api`.
 
-Autenticación JWT
------------------
-- Middleware `authentication` protege rutas  
-- Verifica header Authorization: Bearer <token>  
-- Devuelve 401 o 403 si el token es inválido  
+🔒 Autenticación y middleware
+----------------------------
+El middleware `authentication` (en `src/middleware/authentication.js`) protege las rutas de modificación. Debes enviar el header:
 
-Contribución
-------------
-1. Haz un fork del proyecto  
-2. Crea una rama: git checkout -b feature/nueva-funcionalidad  
-3. Haz commit: git commit -m "Agrega nueva funcionalidad"  
-4. Haz push: git push origin feature/nueva-funcionalidad  
-5. Abre un Pull Request
+```
+Authorization: Bearer <TOKEN>
+```
 
-Licencia
---------
-MIT
+El token se obtiene con `POST /login` y es creado por `src/config/token.js` usando `JWT_SECRET_KEY`.
 
-Contacto
---------
-Alan Contreras – alancontreras784@gmail.com  
-GitHub: https://github.com/AlanContreras784
+🛠️ Ejemplos prácticos (curl / PowerShell)
+------------------------------------------------------
+1) Obtener token (login):
 
-Badges y GIFs
---------------
-- Badges dinámicos: shields.io  
-- GIFs: assets/demo.gif mostrando funcionamiento del servidor o endpoints
+```powershell
+curl -X POST http://localhost:3000/login -H "Content-Type: application/json" -d '{"email":"test@gmail.com","password":"123456"}'
+```
+
+Respuesta:
+
+```json
+{ "token": "eyJhbGciOi..." }
+```
+
+2) Crear producto (ejemplo con token):
+
+```powershell
+curl -X POST http://localhost:3000/products/create -H "Content-Type: application/json" -H "Authorization: Bearer <TOKEN>" -d '{"name":"Zapatos","price":59.99}'
+```
+
+3) Listar productos:
+
+```powershell
+curl http://localhost:3000/products
+```
+
+🧩 Archivos y flujo interno
+-----------------------------------------
+- `index.js` — punto de entrada del servidor (configura express, middlewares y routes).
+- `src/routes/*.route.js` — define endpoints y enlaza con los controladores.
+- `src/controllers/*.controller.js` — maneja las requests/responses.
+- `src/services/*.service.js` — lógica de negocio y llamadas a modelos.
+- `src/models/*.model.js` — acceso a datos (ej.: Firebase o funciones que manipulan JSON local en `src/data`).
+- `src/config/token.js` — generación de JWT.
+- `src/middleware/authentication.js` — valida token en peticiones protegidas.
+- `src/data/` — ficheros JSON de ejemplo: `products.json`, `users.json`.
+- `src/utils/seedUser.js` — utilidades para sembrar datos de prueba.
+
+💾 Notas sobre persistencia
+------------------------------------------
+El proyecto soporta dos modos principales:
+- Uso de Firebase (comentar/ajustar en `src/models/*` según tu configuración)
+- Uso de datos locales (los archivos en `src/data`) para pruebas rápidas sin Firebase.
+
+🔧 Buenas prácticas y recomendaciones
+---------------------------------------------------
+- Nunca dejes `JWT_SECRET_KEY` en el repositorio; usa `.env` y variables de entorno en producción.
+- Añade validaciones (p. ej. con `Joi` o `express-validator`) en los controladores antes de persistir datos.
+- Considera añadir tests unitarios y de integración cuando escales la API.
+
+🤝 Contribuir
+----------------------------
+1. Crea una rama: `git checkout -b feature/nombre-feature`
+2. Implementa cambios y añade tests si aplica.
+3. `git commit -m "feat: descripción corta"` y `git push`.
+4. Abre un Pull Request describiendo los cambios.
+
+📄 Licencia
+--------------------------
+MIT — revisa el archivo `LICENSE` del repositorio.
+
+✉️ Contacto
+---------------------------
+- Autor: Alan Contreras  
+- Email: `alancontreras784@gmail.com`  
+- GitHub: https://github.com/AlanContreras784
+
