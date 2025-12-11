@@ -9,6 +9,3 @@ export const generateToken = (userData) => {
   const expiration = { expiresIn: '5h' };
   return jwt.sign(user, secret_key, expiration);
 }
-
-//const token = generateToken({id: "1", email: "test@gmail.com"})
-//console.log(token)
